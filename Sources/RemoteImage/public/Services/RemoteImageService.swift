@@ -18,7 +18,7 @@ public final class RemoteImageService: ObservableObject {
         }
     }
     
-    public static let cache = NSCache<NSString, UIImage>()
+    public static var cache: CacheRepresentable = RemoteImageCache()
     
     public static var overrideCacheKey: (URL) -> String = { $0.absoluteString }
     
