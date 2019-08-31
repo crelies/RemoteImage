@@ -18,14 +18,18 @@ public final class RemoteImageService: ObservableObject {
         }
     }
     
-    public static let cache = NSCache<NSURL, UIImage>()
+    public static let cache = NSCache<NSString, UIImage>()
+    
+    public static let overrideCacheKey: (URL) -> String = { $0.absoluteString }
     
     public let objectWillChange = PassthroughSubject<Void, Never>()
     
     func fetchImage(atURL url: URL) {
         cancellable?.cancel()
         
-        if let image = RemoteImageService.cache.object(forKey: url as NSURL) {
+        let cacheKey = RemoteImageService.overrideCacheKey(url) as NSString
+        
+        if let image = RemoteImageService.cache.object(forKey: cacheKey) {
             state = .image(image)
             return
         }
@@ -44,7 +48,7 @@ public final class RemoteImageService: ObservableObject {
                 }
             }) { image in
                 if let image = image {
-                    RemoteImageService.cache.setObject(image, forKey: url as NSURL)
+                    RemoteImageService.cache.setObject(image, forKey: cacheKey)
                     self.state = .image(image)
                 } else {
                     self.state = .error(RemoteImageServiceError.couldNotCreateImage)
