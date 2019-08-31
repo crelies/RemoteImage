@@ -20,7 +20,7 @@ public final class RemoteImageService: ObservableObject {
     
     public static let cache = NSCache<NSString, UIImage>()
     
-    public static let overrideCacheKey: (URL) -> String = { $0.absoluteString }
+    public static var overrideCacheKey: (URL) -> String = { $0.absoluteString }
     
     public let objectWillChange = PassthroughSubject<Void, Never>()
     
