@@ -7,13 +7,10 @@
 
 import Foundation
 
-#if canImport(UIKit) && !targetEnvironment(macCatalyst)
+#if canImport(UIKit)
 import UIKit
 public typealias RemoteImageType = UIImage
-#elseif targetEnvironment(macCatalyst)
-import AppKit
-public typealias RemoteImageType = NSImage
-#else
+#elseif os(macOS)
 import AppKit
 public typealias RemoteImageType = NSImage
 #endif

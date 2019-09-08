@@ -23,11 +23,11 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
                     errorView(error)
                 )
             case .image(let image):
-                #if canImport(UIKit) && !targetEnvironment(macCatalyst)
+                #if canImport(UIKit)
                     return AnyView(
                         self.imageView(Image(uiImage: image))
                     )
-                #elseif targetEnvironment(macCatalyst)
+                #elseif os(macOS)
                     return AnyView(
                         self.imageView(Image(nsImage: image))
                     )
