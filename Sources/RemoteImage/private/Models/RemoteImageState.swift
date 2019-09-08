@@ -6,11 +6,11 @@
 //  Copyright © 2019 Christian Elies. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 enum RemoteImageState {
     case error(_ error: Error)
-    case image(_ image: UIImage)
+    case image(_ image: RemoteImageType)
     case loading
 }
 

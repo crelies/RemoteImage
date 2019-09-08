@@ -23,9 +23,19 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
                     errorView(error)
                 )
             case .image(let image):
-                return AnyView(
-                    self.imageView(Image(uiImage: image))
-                )
+                #if canImport(UIKit) && !targetEnvironment(macCatalyst)
+                    return AnyView(
+                        self.imageView(Image(uiImage: image))
+                    )
+                #elseif targetEnvironment(macCatalyst)
+                    return AnyView(
+                        self.imageView(Image(nsImage: image))
+                    )
+                #else
+                    return AnyView(
+                        Text("Cannot render image: unsupported platform")
+                    )
+                #endif
             case .loading:
                 return AnyView(
                     loadingView()

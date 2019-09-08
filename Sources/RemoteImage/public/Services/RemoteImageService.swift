@@ -7,9 +7,9 @@
 //
 
 import Combine
-import UIKit
+import Foundation
 
-public final class RemoteImageService: ObservableObject {
+public final class RemoteImageService: NSObject, ObservableObject {
     private var cancellable: AnyCancellable?
     
     var state: RemoteImageState = .loading {
@@ -18,7 +18,7 @@ public final class RemoteImageService: ObservableObject {
         }
     }
     
-    public static let cache = NSCache<NSURL, UIImage>()
+    public static let cache = NSCache<NSURL, RemoteImageType>()
     
     public let objectWillChange = PassthroughSubject<Void, Never>()
     
@@ -34,7 +34,7 @@ public final class RemoteImageService: ObservableObject {
         let urlRequest = URLRequest(url: url)
         
         cancellable = urlSession.dataTaskPublisher(for: urlRequest)
-            .map { UIImage(data: $0.data) }
+            .map { RemoteImageType(data: $0.data) }
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
