@@ -17,6 +17,10 @@ Just pass your remote image url and `ViewBuilder`s for the error, image and load
 
 Clear the image cache through `RemoteImageService.cache.removeAllObjects()`.
 
+## TODO
+
+- Load iCloud images (through local identifier)
+
 ## Example
 
 The following code truly highlights the **simplicity** of this view:

@@ -14,7 +14,12 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
     private let errorView: (Error) -> ErrorView
     private let imageView: (Image) -> ImageView
     private let loadingView: () -> LoadingView
+    
+    #if !targetEnvironment(macCatalyst)
     @ObservedObject private var service: RemoteImageService = RemoteImageService()
+    #else
+    @EnvironmentObject var service: RemoteImageService
+    #endif
     
     public var body: AnyView {
         switch service.state {
