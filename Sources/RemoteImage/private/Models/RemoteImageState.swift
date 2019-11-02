@@ -10,7 +10,7 @@ import Foundation
 
 enum RemoteImageState {
     case error(_ error: Error)
-    case image(_ image: RemoteImageType)
+    case image(_ image: PlatformSpecificImageType)
     case loading
 }
 

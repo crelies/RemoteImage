@@ -10,19 +10,29 @@ import Combine
 import Foundation
 
 public final class RemoteImageService: NSObject, ObservableObject {
+    private let dependencies: RemoteImageServiceDependenciesProtocol
     private var cancellable: AnyCancellable?
     
-    var state: RemoteImageState = .loading {
-        didSet {
-            objectWillChange.send()
-        }
+    @Published var state: RemoteImageState = .loading
+    
+    public static let cache = NSCache<NSObject, PlatformSpecificImageType>()
+    
+    init(dependencies: RemoteImageServiceDependenciesProtocol) {
+        self.dependencies = dependencies
     }
     
-    public static let cache = NSCache<NSURL, RemoteImageType>()
-    
-    public let objectWillChange = PassthroughSubject<Void, Never>()
-    
-    func fetchImage(atURL url: URL) {
+    func fetchImage(ofType type: RemoteImageType) {
+        switch type {
+        case .url(let url):
+            fetchImage(atURL: url)
+        case .phAsset(let localIdentifier):
+            fetchImage(withLocalIdentifier: localIdentifier)
+        }
+    }
+}
+
+extension RemoteImageService {
+    private func fetchImage(atURL url: URL) {
         cancellable?.cancel()
         
         if let image = RemoteImageService.cache.object(forKey: url as NSURL) {
@@ -34,7 +44,7 @@ public final class RemoteImageService: NSObject, ObservableObject {
         let urlRequest = URLRequest(url: url)
         
         cancellable = urlSession.dataTaskPublisher(for: urlRequest)
-            .map { RemoteImageType(data: $0.data) }
+            .map { PlatformSpecificImageType(data: $0.data) }
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -50,5 +60,23 @@ public final class RemoteImageService: NSObject, ObservableObject {
                     self.state = .error(RemoteImageServiceError.couldNotCreateImage)
                 }
             }
+    }
+    
+    private func fetchImage(withLocalIdentifier localIdentifier: String) {
+        if let image = RemoteImageService.cache.object(forKey: localIdentifier as NSString) {
+            state = .image(image)
+            return
+        }
+        
+        dependencies.photoKitService.getPhotoData(localIdentifier: localIdentifier, success: { data in
+            if let image = PlatformSpecificImageType(data: data) {
+                RemoteImageService.cache.setObject(image, forKey: localIdentifier as NSString)
+                self.state = .image(image)
+            } else {
+                self.state = .error(RemoteImageServiceError.couldNotCreateImage)
+            }
+        }) { error in
+            self.state = .error(error)
+        }
     }
 }

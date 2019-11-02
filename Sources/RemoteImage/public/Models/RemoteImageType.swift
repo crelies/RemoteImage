@@ -2,15 +2,12 @@
 //  RemoteImageType.swift
 //  
 //
-//  Created by Christian Elies on 08.09.19.
+//  Created by Christian Elies on 29.10.19.
 //
 
 import Foundation
 
-#if canImport(UIKit)
-import UIKit
-public typealias RemoteImageType = UIImage
-#elseif os(macOS)
-import AppKit
-public typealias RemoteImageType = NSImage
-#endif
+public enum RemoteImageType {
+    case phAsset(localIdentifier: String)
+    case url(_ url: URL)
+}

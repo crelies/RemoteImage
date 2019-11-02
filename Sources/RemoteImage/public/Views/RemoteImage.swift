@@ -10,16 +10,12 @@ import Combine
 import SwiftUI
 
 public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: View {
-    private let url: URL
+    private let type: RemoteImageType
     private let errorView: (Error) -> ErrorView
     private let imageView: (Image) -> ImageView
     private let loadingView: () -> LoadingView
     
-    #if !targetEnvironment(macCatalyst)
-    @ObservedObject private var service: RemoteImageService = RemoteImageService()
-    #else
-    @EnvironmentObject var service: RemoteImageService
-    #endif
+    @ObservedObject private var service = RemoteImageServiceFactory.makeRemoteImageService()
     
     public var body: AnyView {
         switch service.state {
@@ -45,14 +41,14 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
                 return AnyView(
                     loadingView()
                     .onAppear {
-                        self.service.fetchImage(atURL: self.url)
+                        self.service.fetchImage(ofType: self.type)
                     }
                 )
         }
     }
     
-    public init(url: URL, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
-        self.url = url
+    public init(type: RemoteImageType, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
+        self.type = type
         self.errorView = errorView
         self.imageView = imageView
         self.loadingView = loadingView
@@ -63,7 +59,7 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
 struct RemoteImage_Previews: PreviewProvider {
     static var previews: some View {
         let url = URL(string: "https://images.unsplash.com/photo-1524419986249-348e8fa6ad4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80")!
-        return RemoteImage(url: url, errorView: { error in
+        return RemoteImage(type: .url(url), errorView: { error in
             Text(error.localizedDescription)
         }, imageView: { image in
             image
