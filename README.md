@@ -7,23 +7,23 @@
 This Swift package provides a wrapper view around the existing **SwiftUI** `Image view` which adds support for showing and caching remote images.
 In addition you can specify a loading and error view.
 
-You can display images from a specific URL or from the iCloud (through a `PHAsset` identifier).
+You can display images from a specific **URL** or from the **iCloud** (through a `PHAsset` identifier).
 
-## Installation
+## 💡 Installation
 
 Add this Swift package in Xcode using its Github repository url. (File > Swift Packages > Add Package Dependency...)
 
-## How to use
+## 🧭 How to use
 
 Just pass a remote image url or the local identifier of a `PHAsset` and `ViewBuilder`s for the error, image and loading state to the initializer. That's it 🎉
 
 Clear the image cache through `RemoteImageService.cache.removeAllObjects()`.
 
-## Examples
+## 📖 Examples
 
 The following code truly highlights the **simplicity** of this view:
 
-URL example:
+**URL example:**
 ```swift
 let url = URL(string: "https://images.unsplash.com/photo-1524419986249-348e8fa6ad4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80")!
 
@@ -38,7 +38,7 @@ RemoteImage(type: .url(url), errorView: { error in
 })
 ```
 
-PHAsset example:
+**PHAsset example:**
 ```swift
 
 RemoteImage(type: .phAsset(localIdentifier: "541D4013-D51C-463C-AD85-0A1E4EA838FD"), errorView: { error in
