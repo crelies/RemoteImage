@@ -78,15 +78,18 @@ extension RemoteImageService {
             return
         }
 
-        dependencies.photoKitService.getPhotoData(localIdentifier: localIdentifier, success: { data in
-            if let image = PlatformSpecificImageType(data: data) {
-                Self.cache.setObject(image, forKey: cacheKey)
-                self.state = .image(image)
-            } else {
-                self.state = .error(RemoteImageServiceError.couldNotCreateImage)
+        dependencies.photoKitService.getPhotoData(localIdentifier: localIdentifier) { result in
+            switch result {
+            case .success(let data):
+                if let image = PlatformSpecificImageType(data: data) {
+                    Self.cache.setObject(image, forKey: cacheKey)
+                    self.state = .image(image)
+                } else {
+                    self.state = .error(RemoteImageServiceError.couldNotCreateImage)
+                }
+            case .failure(let error):
+                self.state = .error(error)
             }
-        }) { error in
-            self.state = .error(error)
         }
     }
 }
