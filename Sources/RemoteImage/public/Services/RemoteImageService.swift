@@ -57,8 +57,8 @@ extension RemoteImageService {
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
-                    case .failure(let failure):
-                        self.state = .error(failure)
+                    case .failure(let error):
+                        self.state = .error(error as NSError)
                     default: ()
                 }
             }) { image in
@@ -66,7 +66,7 @@ extension RemoteImageService {
                     Self.cache.setObject(image, forKey: cacheKey)
                     self.state = .image(image)
                 } else {
-                    self.state = .error(RemoteImageServiceError.couldNotCreateImage)
+                    self.state = .error(RemoteImageServiceError.couldNotCreateImage as NSError)
                 }
             }
     }
@@ -85,10 +85,10 @@ extension RemoteImageService {
                     Self.cache.setObject(image, forKey: cacheKey)
                     self.state = .image(image)
                 } else {
-                    self.state = .error(RemoteImageServiceError.couldNotCreateImage)
+                    self.state = .error(RemoteImageServiceError.couldNotCreateImage as NSError)
                 }
             case .failure(let error):
-                self.state = .error(error)
+                self.state = .error(error as NSError)
             }
         }
     }
