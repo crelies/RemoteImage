@@ -5,6 +5,8 @@ public enum PhotoKitServiceError: Error {
     case phAssetNotFound(localIdentifier: String)
 }
 
+extension PhotoKitServiceError: Equatable {}
+
 extension PhotoKitServiceError: LocalizedError {
     public var errorDescription: String? {
         switch self {
