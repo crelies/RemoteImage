@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RemoteImageState {
+enum RemoteImageState: Hashable {
     case error(_ error: NSError)
     case image(_ image: PlatformSpecificImageType)
     case loading
