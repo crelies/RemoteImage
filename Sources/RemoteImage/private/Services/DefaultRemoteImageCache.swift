@@ -15,4 +15,8 @@ extension DefaultRemoteImageCache: RemoteImageCache {
     func object(forKey key: AnyObject) -> PlatformSpecificImageType? { cache.object(forKey: key) }
 
     func setObject(_ object: PlatformSpecificImageType, forKey key: AnyObject) { cache.setObject(object, forKey: key) }
+
+    func removeObject(forKey key: AnyObject) { cache.removeObject(forKey: key) }
+
+    func removeAllObjects() { cache.removeAllObjects() }
 }

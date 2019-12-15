@@ -49,10 +49,9 @@ extension RemoteImageService {
             return
         }
 
-        let urlSession = URLSession.shared
         let urlRequest = URLRequest(url: url)
 
-        cancellable = urlSession.dataTaskPublisher(for: urlRequest)
+        cancellable = dependencies.remoteImageURLDataPublisher.dataPublisher(for: urlRequest)
             .map { PlatformSpecificImageType(data: $0.data) }
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
