@@ -53,6 +53,24 @@ RemoteImage(type: .phAsset(localIdentifier: "541D4013-D51C-463C-AD85-0A1E4EA838F
 })
 ```
 
+## Custom cache
+
+The `RemoteImageService` uses a default cache. To use a custom one just conform to the protocol `RemoteImageCache` and set it on the type `RemoteImageService`.
+
+```swift
+RemoteImageService.cache = yourCache
+```
+
+## Custom cache key
+
+The default cache uses the associated value of the related `RemoteImageType` as the key. You can customize this by setting a cache key provider through
+
+```swift
+RemoteImageService.cacheKeyProvider = { remoteImageType -> AnyObject in
+    // return a key here
+}
+```
+
 ## Migration from 0.1.0 -> 1.0.0
 
 The `url parameter` was refactored to a `type parameter` which makes it easy to fetch images at a URL or from the iCloud. 
