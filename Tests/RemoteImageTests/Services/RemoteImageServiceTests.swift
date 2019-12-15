@@ -95,6 +95,40 @@ final class RemoteImageServiceTests: XCTestCase {
         }
     }
 
+    func testFetchImageURLFailureCompletion() {
+        guard let url = URL(string: "https://www.google.de") else {
+            XCTFail("Could not create mock URL")
+            return
+        }
+
+        let expectation = self.expectation(description: "FetchImageURLState")
+
+        let remoteImageType: RemoteImageType = .url(url)
+        service.fetchImage(ofType: remoteImageType)
+
+        // publish completion
+        let expectedError = URLError(.cancelled)
+        remoteImageURLDataPublisher?.publisher.send(completion: .failure(expectedError))
+
+        var state: RemoteImageState?
+        cancellable = service.$state.sink { st in
+            guard case RemoteImageState.error = st else {
+                return
+            }
+            state = st
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 1)
+
+        switch state {
+        case .error(let error):
+            XCTAssertEqual(error as? URLError, expectedError)
+        default:
+            XCTFail("Invalid fetch image URL completion")
+        }
+    }
+
     func testFetchImageURLCached() {
         guard let url = URL(string: "https://www.google.de") else {
             XCTFail("Could not create mock URL")
@@ -163,7 +197,7 @@ final class RemoteImageServiceTests: XCTestCase {
         }
     }
 
-    func testFetchPHAccessFailure() {
+    func testFetchPHAccessInvalidData() {
         let expectation = self.expectation(description: "FetchPHAsset")
         photoKitService?.resultToReturn = .success(Data())
         let localIdentifier = "TestIdentifier"
@@ -184,6 +218,33 @@ final class RemoteImageServiceTests: XCTestCase {
         switch state {
         case .error(let error):
             XCTAssertEqual(error as? RemoteImageServiceError, .couldNotCreateImage)
+        default:
+            XCTFail("Invalid fetch ph asset result")
+        }
+    }
+
+    func testFetchPHAccessFailure() {
+        let expectation = self.expectation(description: "FetchPHAsset")
+        let expectedError: RemoteImageServiceError = .couldNotCreateImage
+        photoKitService?.resultToReturn = .failure(expectedError)
+        let localIdentifier = "TestIdentifier"
+        let remoteImageType: RemoteImageType = .phAsset(localIdentifier: localIdentifier)
+        service.fetchImage(ofType: remoteImageType)
+
+        var state: RemoteImageState?
+        cancellable = service.$state.sink { st in
+            guard case RemoteImageState.error = st else {
+                return
+            }
+            state = st
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 1)
+
+        switch state {
+        case .error(let error):
+            XCTAssertEqual(error as? RemoteImageServiceError, expectedError)
         default:
             XCTFail("Invalid fetch ph asset result")
         }
