@@ -22,7 +22,17 @@ final class DefaultRemoteImageCacheTests: XCTestCase {
         XCTAssertEqual(remoteImageCache.object(forKey: key), image)
     }
 
+    func testRemoveImage() {
+        let key = "Test" as NSString
+        let image = PlatformSpecificImageType()
+        remoteImageCache.setObject(image, forKey: key)
+        XCTAssertEqual(remoteImageCache.object(forKey: key), image)
+        remoteImageCache.removeObject(forKey: key)
+        XCTAssertNil(remoteImageCache.object(forKey: key))
+    }
+
     static var allTests = [
-        ("testSetImage", testSetImage)
+        ("testSetImage", testSetImage),
+        ("testRemoveImage", testRemoveImage)
     ]
 }
