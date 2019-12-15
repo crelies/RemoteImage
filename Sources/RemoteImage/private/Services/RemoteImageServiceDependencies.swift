@@ -7,14 +7,16 @@
 
 import Foundation
 
-protocol RemoteImageServiceDependenciesProtocol: PhotoKitServiceProvider {
+protocol RemoteImageServiceDependenciesProtocol: PhotoKitServiceProvider, RemoteImageURLDataPublisherProvider {
     
 }
 
 struct RemoteImageServiceDependencies: RemoteImageServiceDependenciesProtocol {
     let photoKitService: PhotoKitServiceProtocol
+    let remoteImageURLDataPublisher: RemoteImageURLDataPublisher
     
     init() {
         photoKitService = PhotoKitService()
+        remoteImageURLDataPublisher = URLSession.shared
     }
 }

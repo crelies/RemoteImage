@@ -14,9 +14,9 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
     private let errorView: (Error) -> ErrorView
     private let imageView: (Image) -> ImageView
     private let loadingView: () -> LoadingView
-    
+
     @ObservedObject private var service = RemoteImageServiceFactory.makeRemoteImageService()
-    
+
     public var body: AnyView {
         switch service.state {
             case .error(let error):
@@ -46,7 +46,7 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
                 )
         }
     }
-    
+
     public init(type: RemoteImageType, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
         self.type = type
         self.errorView = errorView
