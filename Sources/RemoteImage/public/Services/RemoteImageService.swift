@@ -9,9 +9,9 @@
 import Combine
 import Foundation
 
-public final class RemoteImageService: NSObject, ObservableObject {
-    public typealias RemoteImageCacheKeyProvider = (RemoteImageType) -> AnyObject
+public typealias RemoteImageCacheKeyProvider = (RemoteImageType) -> AnyObject
 
+public final class RemoteImageService: NSObject, ObservableObject, RemoteImageServiceProtocol {
     private let dependencies: RemoteImageServiceDependenciesProtocol
     private var cancellable: AnyCancellable?
 
