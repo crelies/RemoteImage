@@ -5,8 +5,11 @@
 //  Created by Christian Elies on 15.12.19.
 //
 
+#if canImport(SwiftUI) && canImport(UIKit)
 import Combine
 @testable import RemoteImage
+import SwiftUI
+import UIKit
 import XCTest
 
 final class RemoteImageServiceTests: XCTestCase {
@@ -283,3 +286,4 @@ final class RemoteImageServiceTests: XCTestCase {
         }
     }
 }
+#endif
