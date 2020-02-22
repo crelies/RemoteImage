@@ -5,6 +5,7 @@
 //  Created by Christian Elies on 15.12.19.
 //
 
+#if canImport(UIKit)
 @testable import RemoteImage
 import XCTest
 
@@ -14,3 +15,4 @@ final class RemoteImageServiceFactoryTests: XCTestCase {
         XCTAssertEqual(service.state, .loading)
     }
 }
+#endif
