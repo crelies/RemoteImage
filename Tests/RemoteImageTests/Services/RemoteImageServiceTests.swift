@@ -138,7 +138,7 @@ final class RemoteImageServiceTests: XCTestCase {
             return
         }
 
-        guard let image = PlatformSpecificImageType(systemName: "paperplane.fill") else {
+        guard let image = UIImage(systemName: "paperplane.fill") else {
             XCTFail("Could not create mock image")
             return
         }
@@ -254,7 +254,7 @@ final class RemoteImageServiceTests: XCTestCase {
     }
 
     func testFetchPHAssetCached() {
-        guard let image = PlatformSpecificImageType(systemName: "paperplane.fill") else {
+        guard let image = UIImage(systemName: "paperplane.fill") else {
             XCTFail("Could not create mock image")
             return
         }

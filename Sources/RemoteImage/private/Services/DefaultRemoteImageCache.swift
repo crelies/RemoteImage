@@ -5,18 +5,20 @@
 //  Created by Christian Elies on 14.12.19.
 //
 
-import Foundation
+#if canImport(UIKit)
+import UIKit
 
 struct DefaultRemoteImageCache {
-    let cache = NSCache<AnyObject, PlatformSpecificImageType>()
+    let cache = NSCache<AnyObject, UIImage>()
 }
 
 extension DefaultRemoteImageCache: RemoteImageCache {
-    func object(forKey key: AnyObject) -> PlatformSpecificImageType? { cache.object(forKey: key) }
+    func object(forKey key: AnyObject) -> UIImage? { cache.object(forKey: key) }
 
-    func setObject(_ object: PlatformSpecificImageType, forKey key: AnyObject) { cache.setObject(object, forKey: key) }
+    func setObject(_ object: UIImage, forKey key: AnyObject) { cache.setObject(object, forKey: key) }
 
     func removeObject(forKey key: AnyObject) { cache.removeObject(forKey: key) }
 
     func removeAllObjects() { cache.removeAllObjects() }
 }
+#endif

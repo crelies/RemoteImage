@@ -5,7 +5,9 @@
 //  Created by Christian Elies on 14.12.19.
 //
 
+#if canImport(UIKit)
 @testable import RemoteImage
+import UIKit
 import XCTest
 
 final class DefaultRemoteImageCacheTests: XCTestCase {
@@ -17,14 +19,14 @@ final class DefaultRemoteImageCacheTests: XCTestCase {
 
     func testSetImage() {
         let key = "Test" as NSString
-        let image = PlatformSpecificImageType()
+        let image = UIImage()
         remoteImageCache.setObject(image, forKey: key)
         XCTAssertEqual(remoteImageCache.object(forKey: key), image)
     }
 
     func testRemoveImage() {
         let key = "Test" as NSString
-        let image = PlatformSpecificImageType()
+        let image = UIImage()
         remoteImageCache.setObject(image, forKey: key)
         XCTAssertEqual(remoteImageCache.object(forKey: key), image)
         remoteImageCache.removeObject(forKey: key)
@@ -36,3 +38,4 @@ final class DefaultRemoteImageCacheTests: XCTestCase {
         ("testRemoveImage", testRemoveImage)
     ]
 }
+#endif

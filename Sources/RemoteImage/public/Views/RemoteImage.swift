@@ -6,6 +6,7 @@
 //  Copyright © 2019 Christian Elies. All rights reserved.
 //
 
+#if canImport(SwiftUI) && canImport(UIKit)
 import Combine
 import SwiftUI
 
@@ -17,33 +18,18 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
 
     @ObservedObject private var service = RemoteImageServiceFactory.makeRemoteImageService()
 
-    public var body: AnyView {
-        switch service.state {
-            case .error(let error):
-                return AnyView(
-                    errorView(error)
-                )
-            case .image(let image):
-                #if canImport(UIKit)
-                    return AnyView(
-                        self.imageView(Image(uiImage: image))
-                    )
-                #elseif os(macOS)
-                    return AnyView(
-                        self.imageView(Image(nsImage: image))
-                    )
-                #else
-                    return AnyView(
-                        Text("Cannot render image: unsupported platform")
-                    )
-                #endif
-            case .loading:
-                return AnyView(
-                    loadingView()
+    public var body: some View {
+        Group {
+            if service.state == .loading {
+                loadingView()
                     .onAppear {
                         self.service.fetchImage(ofType: self.type)
                     }
-                )
+            } else {
+                service.state.error.map { errorView($0) }
+
+                service.state.image.map { self.imageView(Image(uiImage: $0)) }
+            }
         }
     }
 
@@ -68,4 +54,6 @@ struct RemoteImage_Previews: PreviewProvider {
         })
     }
 }
+#endif
+
 #endif

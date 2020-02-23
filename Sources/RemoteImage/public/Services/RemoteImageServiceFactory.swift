@@ -5,6 +5,7 @@
 //  Created by Christian Elies on 29.10.19.
 //
 
+#if canImport(UIKit)
 import Foundation
 
 public final class RemoteImageServiceFactory {
@@ -13,3 +14,4 @@ public final class RemoteImageServiceFactory {
         return RemoteImageService(dependencies: dependencies)
     }
 }
+#endif
