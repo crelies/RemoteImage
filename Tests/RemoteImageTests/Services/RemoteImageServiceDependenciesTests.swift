@@ -15,4 +15,8 @@ final class RemoteImageServiceDependenciesTests: XCTestCase {
         XCTAssertTrue(dependencies.photoKitService is PhotoKitService)
         XCTAssertTrue(dependencies.remoteImageURLDataPublisher is URLSession)
     }
+
+    static var allTests = [
+        ("testInitialization", testInitialization)
+    ]
 }

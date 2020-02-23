@@ -14,4 +14,8 @@ final class RemoteImageServiceErrorTests: XCTestCase {
         let expectedDescription = "Could not create image from received data"
         XCTAssertEqual(description, expectedDescription)
     }
+
+    static var allTests = [
+        ("testCouldNotCreateImageDescription", testCouldNotCreateImageDescription)
+    ]
 }
