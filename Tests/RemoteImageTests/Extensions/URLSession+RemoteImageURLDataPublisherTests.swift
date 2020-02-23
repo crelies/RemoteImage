@@ -21,4 +21,8 @@ final class URLSession_RemoteImageURLDataPublisherTests: XCTestCase {
         let dataPublisher = urlSession.dataPublisher(for: urlRequest)
         XCTAssertEqual(dataPublisher.description, dataTaskPublisher.description)
     }
+
+    static var allTests = [
+        ("testDataPublisher", testDataPublisher)
+    ]
 }

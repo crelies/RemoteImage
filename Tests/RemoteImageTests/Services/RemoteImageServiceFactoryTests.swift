@@ -14,5 +14,9 @@ final class RemoteImageServiceFactoryTests: XCTestCase {
         let service = RemoteImageServiceFactory.makeRemoteImageService()
         XCTAssertEqual(service.state, .loading)
     }
+
+    static var allTests = [
+        ("testMakeRemoteImageService", testMakeRemoteImageService)
+    ]
 }
 #endif

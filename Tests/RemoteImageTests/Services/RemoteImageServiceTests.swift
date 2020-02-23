@@ -285,5 +285,16 @@ final class RemoteImageServiceTests: XCTestCase {
             XCTFail("Invalid fetch ph asset cached result")
         }
     }
+
+    static var allTests = [
+        ("testFetchImageURLSuccess", testFetchImageURLSuccess),
+        ("testFetchImageURLFailure", testFetchImageURLFailure),
+        ("testFetchImageURLFailureCompletion", testFetchImageURLFailureCompletion),
+        ("testFetchImageURLCached", testFetchImageURLCached),
+        ("testFetchPHAssetSuccess", testFetchPHAssetSuccess),
+        ("testFetchPHAccessInvalidData", testFetchPHAccessInvalidData),
+        ("testFetchPHAccessFailure", testFetchPHAccessFailure),
+        ("testFetchPHAssetCached", testFetchPHAssetCached)
+    ]
 }
 #endif

@@ -34,5 +34,9 @@ final class RemoteImageTests: XCTestCase {
             XCTFail("\(error)")
         }
     }
+
+    static var allTests = [
+        ("testLoadingState", testLoadingState)
+    ]
 }
 #endif

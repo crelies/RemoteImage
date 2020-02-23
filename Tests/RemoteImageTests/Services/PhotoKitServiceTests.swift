@@ -87,4 +87,10 @@ final class PhotoKitServiceTests: XCTestCase {
             XCTFail("Invalid photo data result")
         }
     }
+
+    static var allTests = [
+        ("testPhotoDataNotFound", testPhotoDataNotFound),
+        ("testPhotoDataFailure", testPhotoDataFailure),
+        ("testPhotoDataSuccess", testPhotoDataSuccess)
+    ]
 }
