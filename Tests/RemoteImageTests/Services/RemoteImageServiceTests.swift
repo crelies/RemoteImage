@@ -5,8 +5,11 @@
 //  Created by Christian Elies on 15.12.19.
 //
 
+#if canImport(SwiftUI) && canImport(UIKit)
 import Combine
 @testable import RemoteImage
+import SwiftUI
+import UIKit
 import XCTest
 
 final class RemoteImageServiceTests: XCTestCase {
@@ -135,7 +138,7 @@ final class RemoteImageServiceTests: XCTestCase {
             return
         }
 
-        guard let image = PlatformSpecificImageType(systemName: "paperplane.fill") else {
+        guard let image = UIImage(systemName: "paperplane.fill") else {
             XCTFail("Could not create mock image")
             return
         }
@@ -251,7 +254,7 @@ final class RemoteImageServiceTests: XCTestCase {
     }
 
     func testFetchPHAssetCached() {
-        guard let image = PlatformSpecificImageType(systemName: "paperplane.fill") else {
+        guard let image = UIImage(systemName: "paperplane.fill") else {
             XCTFail("Could not create mock image")
             return
         }
@@ -282,4 +285,16 @@ final class RemoteImageServiceTests: XCTestCase {
             XCTFail("Invalid fetch ph asset cached result")
         }
     }
+
+    static var allTests = [
+        ("testFetchImageURLSuccess", testFetchImageURLSuccess),
+        ("testFetchImageURLFailure", testFetchImageURLFailure),
+        ("testFetchImageURLFailureCompletion", testFetchImageURLFailureCompletion),
+        ("testFetchImageURLCached", testFetchImageURLCached),
+        ("testFetchPHAssetSuccess", testFetchPHAssetSuccess),
+        ("testFetchPHAccessInvalidData", testFetchPHAccessInvalidData),
+        ("testFetchPHAccessFailure", testFetchPHAccessFailure),
+        ("testFetchPHAssetCached", testFetchPHAssetCached)
+    ]
 }
+#endif

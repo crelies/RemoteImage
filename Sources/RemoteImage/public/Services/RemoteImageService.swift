@@ -6,8 +6,9 @@
 //  Copyright © 2019 Christian Elies. All rights reserved.
 //
 
+#if canImport(UIKit)
 import Combine
-import Foundation
+import UIKit
 
 public typealias RemoteImageCacheKeyProvider = (RemoteImageType) -> AnyObject
 
@@ -52,7 +53,7 @@ extension RemoteImageService {
         let urlRequest = URLRequest(url: url)
 
         cancellable = dependencies.remoteImageURLDataPublisher.dataPublisher(for: urlRequest)
-            .map { PlatformSpecificImageType(data: $0.data) }
+            .map { UIImage(data: $0.data) }
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -80,7 +81,7 @@ extension RemoteImageService {
         dependencies.photoKitService.getPhotoData(localIdentifier: localIdentifier) { result in
             switch result {
             case .success(let data):
-                if let image = PlatformSpecificImageType(data: data) {
+                if let image = UIImage(data: data) {
                     Self.cache.setObject(image, forKey: cacheKey)
                     self.state = .image(image)
                 } else {
@@ -92,3 +93,4 @@ extension RemoteImageService {
         }
     }
 }
+#endif

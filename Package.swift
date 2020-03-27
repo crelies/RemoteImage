@@ -15,12 +15,15 @@ let package = Package(
             name: "RemoteImage",
             targets: ["RemoteImage"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/nalexn/ViewInspector.git", from: "0.3.8")
+    ],
     targets: [
         .target(
             name: "RemoteImage",
             dependencies: []),
         .testTarget(
             name: "RemoteImageTests",
-            dependencies: ["RemoteImage"]),
+            dependencies: ["RemoteImage", "ViewInspector"]),
     ]
 )

@@ -61,4 +61,16 @@ final class PhotoKitServiceErrorTests: XCTestCase {
     func testErrorDomain() {
         XCTAssertEqual(PhotoKitServiceError.errorDomain, String(describing: PhotoKitService.self))
     }
+
+    static var allTests = [
+        ("testMissingDataErrorDescription", testMissingDataErrorDescription),
+        ("testMissingDataFailureReason", testMissingDataFailureReason),
+        ("testMissingDataRecoverySuggestion", testMissingDataRecoverySuggestion),
+        ("testMissingDataErrorCode", testMissingDataErrorCode),
+        ("testPhAssetNotFoundErrorDescription", testPhAssetNotFoundErrorDescription),
+        ("testPhAssetNotFoundFailureReason", testPhAssetNotFoundFailureReason),
+        ("testPhAssetNotFoundRecoverySuggestion", testPhAssetNotFoundRecoverySuggestion),
+        ("testPhAssetNotFoundErrorCode", testPhAssetNotFoundErrorCode),
+        ("testErrorDomain", testErrorDomain)
+    ]
 }
