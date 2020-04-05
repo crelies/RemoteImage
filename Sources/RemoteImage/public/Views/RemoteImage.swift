@@ -38,6 +38,8 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
         self.errorView = errorView
         self.imageView = imageView
         self.loadingView = loadingView
+
+        service.fetchImage(ofType: type)
     }
 }
 
