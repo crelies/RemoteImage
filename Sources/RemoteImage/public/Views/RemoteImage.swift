@@ -22,9 +22,6 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
         Group {
             if service.state == .loading {
                 loadingView()
-                    .onAppear {
-                        self.service.fetchImage(ofType: self.type)
-                    }
             } else {
                 service.state.error.map { errorView($0) }
 
