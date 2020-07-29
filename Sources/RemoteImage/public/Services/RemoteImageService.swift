@@ -40,8 +40,8 @@ public final class RemoteImageService: NSObject, ObservableObject, RemoteImageSe
     }
 }
 
-extension RemoteImageService {
-    private func fetchImage(atURL url: URL) {
+private extension RemoteImageService {
+    func fetchImage(atURL url: URL) {
         cancellable?.cancel()
 
         let cacheKey = Self.cacheKeyProvider(.url(url))
@@ -71,7 +71,7 @@ extension RemoteImageService {
             }
     }
 
-    private func fetchImage(withLocalIdentifier localIdentifier: String) {
+    func fetchImage(withLocalIdentifier localIdentifier: String) {
         let cacheKey = Self.cacheKeyProvider(.phAsset(localIdentifier: localIdentifier))
         if let image = Self.cache.object(forKey: cacheKey) {
             state = .image(image)
