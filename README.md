@@ -1,6 +1,6 @@
 # RemoteImage
 
-[![Swift 5.1](https://img.shields.io/badge/swift-5.1-green.svg?longCache=true&style=flat-square)](https://developer.apple.com/swift)
+[![Swift 5.3](https://img.shields.io/badge/swift-5.3-green.svg?longCache=true&style=flat-square)](https://developer.apple.com/swift)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20macOS%20%7C%20tvOS-lightgrey.svg?longCache=true&style=flat-square)](https://www.apple.com)
 [![Current Version](https://img.shields.io/github/v/tag/crelies/RemoteImage?longCache=true&style=flat-square)](https://github.com/crelies/RemoteImage)
 [![Build status](https://travis-ci.com/crelies/RemoteImage.svg?token=THnaziKxRFFz1nKcsPgz&branch=dev)](https://travis-ci.com/crelies/RemoteImage)

@@ -19,14 +19,13 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
     @ObservedObject private var service = RemoteImageServiceFactory.makeRemoteImageService()
 
     public var body: some View {
-        Group {
-            if service.state == .loading {
-                loadingView()
-            } else {
-                service.state.error.map { errorView($0) }
-
-                service.state.image.map { self.imageView(Image(uiImage: $0)) }
-            }
+        switch service.state {
+        case .loading:
+            loadingView()
+        case let .error(error):
+            errorView(error)
+        case let .image(uiImage):
+            imageView(Image(uiImage: uiImage))
         }
     }
 
