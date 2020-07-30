@@ -27,8 +27,8 @@ final class RemoteImageTests: XCTestCase {
 
         do {
             let inspectableView = try view.body.inspect()
-            let group = try inspectableView.group().first
-            let textString = try group?.text().string()
+            let text = try inspectableView.text()
+            let textString = try text.string()
             XCTAssertEqual(textString, loadingStateViewString)
         } catch {
             XCTFail("\(error)")
