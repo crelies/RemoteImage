@@ -55,18 +55,26 @@ private extension RemoteImageService {
         cancellable = dependencies.remoteImageURLDataPublisher.dataPublisher(for: urlRequest)
             .map { UIImage(data: $0.data) }
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { completion in
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let weakSelf = self else {
+                    return
+                }
+
                 switch completion {
                     case .failure(let error):
-                        self.state = .error(error as NSError)
-                    default: ()
+                        weakSelf.state = .error(error as NSError)
+                    case .finished: ()
                 }
-            }) { image in
+            }) { [weak self] image in
+                guard let weakSelf = self else {
+                    return
+                }
+
                 if let image = image {
                     Self.cache.setObject(image, forKey: cacheKey)
-                    self.state = .image(image)
+                    weakSelf.state = .image(image)
                 } else {
-                    self.state = .error(RemoteImageServiceError.couldNotCreateImage as NSError)
+                    weakSelf.state = .error(RemoteImageServiceError.couldNotCreateImage as NSError)
                 }
             }
     }
