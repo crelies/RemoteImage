@@ -6,12 +6,11 @@
 //  Copyright © 2019 Christian Elies. All rights reserved.
 //
 
-#if canImport(UIKit)
-import UIKit
+import Foundation
 
 enum RemoteImageState: Hashable {
     case error(_ error: NSError)
-    case image(_ image: UIImage)
+    case image(_ image: UniversalImage)
     case loading
 }
 
@@ -23,11 +22,10 @@ extension RemoteImageState {
         return error
     }
 
-    var image: UIImage? {
+    var image: UniversalImage? {
         guard case let RemoteImageState.image(uiImage) = self else {
             return nil
         }
         return uiImage
     }
 }
-#endif

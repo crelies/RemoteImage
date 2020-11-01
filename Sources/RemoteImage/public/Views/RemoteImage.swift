@@ -6,7 +6,7 @@
 //  Copyright © 2019 Christian Elies. All rights reserved.
 //
 
-#if canImport(SwiftUI) && canImport(UIKit)
+#if canImport(SwiftUI)
 import Combine
 import SwiftUI
 
@@ -25,7 +25,11 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
         case let .error(error):
             errorView(error)
         case let .image(uiImage):
+            #if os(macOS)
+            imageView(Image(nsImage: uiImage))
+            #elseif os(iOS)
             imageView(Image(uiImage: uiImage))
+            #endif
         }
     }
 

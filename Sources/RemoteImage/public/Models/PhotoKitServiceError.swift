@@ -1,3 +1,10 @@
+//
+//  PhotoKitServiceError.swift
+//  RemoteImage
+//
+//  Created by Christian Elies.
+//
+
 import Foundation
 
 public enum PhotoKitServiceError: Error {

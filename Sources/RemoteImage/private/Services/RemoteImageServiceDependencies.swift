@@ -1,6 +1,6 @@
 //
 //  RemoteImageServiceDependencies.swift
-//  
+//  RemoteImage
 //
 //  Created by Christian Elies on 29.10.19.
 //

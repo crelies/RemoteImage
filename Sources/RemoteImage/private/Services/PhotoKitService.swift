@@ -1,3 +1,10 @@
+//
+//  PhotoKitService.swift
+//  RemoteImage
+//
+//  Created by Christian Elies.
+//
+
 import Photos
 
 protocol PhotoKitServiceProvider {

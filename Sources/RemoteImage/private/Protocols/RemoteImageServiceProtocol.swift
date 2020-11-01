@@ -5,7 +5,6 @@
 //  Created by Christian Elies on 15.12.19.
 //
 
-#if canImport(UIKit)
 import Combine
 
 protocol RemoteImageServiceProtocol where Self: ObservableObject {
@@ -15,4 +14,3 @@ protocol RemoteImageServiceProtocol where Self: ObservableObject {
     var state: RemoteImageState { get set }
     func fetchImage(ofType type: RemoteImageType)
 }
-#endif
