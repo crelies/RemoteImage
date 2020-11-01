@@ -5,7 +5,7 @@
 //  Created by Christian Elies on 01.11.20.
 //
 
-#if os(iOS)
+#if os(iOS) || os(tvOS)
 import UIKit
 
 public typealias UniversalImage = UIImage
