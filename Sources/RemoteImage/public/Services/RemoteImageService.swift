@@ -49,9 +49,7 @@ private extension RemoteImageService {
             return
         }
 
-        let urlRequest = URLRequest(url: url)
-
-        cancellable = dependencies.remoteImageURLDataPublisher.dataPublisher(for: urlRequest)
+        cancellable = dependencies.remoteImageURLDataPublisher.dataPublisher(for: url)
             .map { UniversalImage(data: $0.data) }
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { [weak self] completion in

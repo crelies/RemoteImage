@@ -6,8 +6,8 @@
 //
 
 public final class RemoteImageServiceFactory {
-    public static func makeRemoteImageService() -> RemoteImageService {
-        let dependencies = RemoteImageServiceDependencies()
+    public static func makeRemoteImageService(remoteImageURLDataPublisher: RemoteImageURLDataPublisher) -> RemoteImageService {
+        let dependencies = RemoteImageServiceDependencies(remoteImageURLDataPublisher: remoteImageURLDataPublisher)
         return RemoteImageService(dependencies: dependencies)
     }
 }

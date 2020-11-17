@@ -16,7 +16,7 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
     private let imageView: (Image) -> ImageView
     private let loadingView: () -> LoadingView
 
-    @ObservedObject private var service = RemoteImageServiceFactory.makeRemoteImageService()
+    @ObservedObject private var service: RemoteImageService
 
     public var body: some View {
         switch service.state {
@@ -33,11 +33,14 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
         }
     }
 
-    public init(type: RemoteImageType, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
+    public init(type: RemoteImageType, remoteImageURLDataPublisher: RemoteImageURLDataPublisher = URLSession.shared, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
         self.type = type
         self.errorView = errorView
         self.imageView = imageView
         self.loadingView = loadingView
+
+        let service = RemoteImageServiceFactory.makeRemoteImageService(remoteImageURLDataPublisher: remoteImageURLDataPublisher)
+        _service = ObservedObject(wrappedValue: service)
 
         service.fetchImage(ofType: type)
     }

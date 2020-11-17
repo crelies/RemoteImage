@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 extension URLSession: RemoteImageURLDataPublisher {
-    func dataPublisher(for request: URLRequest) -> AnyPublisher<(data: Data, response: URLResponse), URLError> {
-        dataTaskPublisher(for: request).eraseToAnyPublisher()
+    public func dataPublisher(for url: URL) -> AnyPublisher<(data: Data, response: URLResponse), URLError> {
+        dataTaskPublisher(for: url).eraseToAnyPublisher()
     }
 }

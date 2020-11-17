@@ -15,8 +15,8 @@ struct RemoteImageServiceDependencies: RemoteImageServiceDependenciesProtocol {
     let photoKitService: PhotoKitServiceProtocol
     let remoteImageURLDataPublisher: RemoteImageURLDataPublisher
     
-    init() {
+    init(remoteImageURLDataPublisher: RemoteImageURLDataPublisher) {
         photoKitService = PhotoKitService()
-        remoteImageURLDataPublisher = URLSession.shared
+        self.remoteImageURLDataPublisher = remoteImageURLDataPublisher
     }
 }
