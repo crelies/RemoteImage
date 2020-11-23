@@ -12,7 +12,7 @@ import Foundation
 final class MockRemoteImageURLDataPublisher: RemoteImageURLDataPublisher {
     var publisher = PassthroughSubject<(data: Data, response: URLResponse), URLError>()
 
-    func dataPublisher(for request: URLRequest) -> AnyPublisher<(data: Data, response: URLResponse), URLError> {
+    func dataPublisher(for url: URL) -> AnyPublisher<(data: Data, response: URLResponse), URLError> {
         publisher.eraseToAnyPublisher()
     }
 }

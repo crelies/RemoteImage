@@ -18,10 +18,10 @@ final class RemoteImageServiceTests: XCTestCase {
     let dependencies = MockRemoteImageServiceDependencies()
     lazy var photoKitService = dependencies.photoKitService as? MockPhotoKitService
     lazy var remoteImageURLDataPublisher = dependencies.remoteImageURLDataPublisher as? MockRemoteImageURLDataPublisher
-    lazy var service = RemoteImageService(dependencies: dependencies)
+    lazy var service = DefaultRemoteImageService(dependencies: dependencies)
 
     override func setUp() {
-        RemoteImageService.cache.removeAllObjects()
+        DefaultRemoteImageService.cache.removeAllObjects()
         photoKitService?.resultToReturn = .success(Data())
     }
 
@@ -144,7 +144,7 @@ final class RemoteImageServiceTests: XCTestCase {
         }
 
         let cacheKey = url as NSURL
-        RemoteImageService.cache.setObject(image, forKey: cacheKey)
+        DefaultRemoteImageService.cache.setObject(image, forKey: cacheKey)
 
         let expectation = self.expectation(description: "FetchImageURLCached")
         let remoteImageType: RemoteImageType = .url(url)
@@ -261,7 +261,7 @@ final class RemoteImageServiceTests: XCTestCase {
 
         let localIdentifier = "TestIdentifier"
         let cacheKey = localIdentifier as NSString
-        RemoteImageService.cache.setObject(image, forKey: cacheKey)
+        DefaultRemoteImageService.cache.setObject(image, forKey: cacheKey)
 
         let expectation = self.expectation(description: "FetchPHAssetCached")
         let remoteImageType: RemoteImageType = .phAsset(localIdentifier: localIdentifier)

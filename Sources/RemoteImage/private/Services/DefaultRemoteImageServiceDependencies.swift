@@ -1,5 +1,5 @@
 //
-//  RemoteImageServiceDependencies.swift
+//  DefaultRemoteImageServiceDependencies.swift
 //  RemoteImage
 //
 //  Created by Christian Elies on 29.10.19.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol RemoteImageServiceDependenciesProtocol: PhotoKitServiceProvider, RemoteImageURLDataPublisherProvider {
+protocol DefaultRemoteImageServiceDependenciesProtocol: PhotoKitServiceProvider, RemoteImageURLDataPublisherProvider {
     
 }
 
-struct RemoteImageServiceDependencies: RemoteImageServiceDependenciesProtocol {
+struct DefaultRemoteImageServiceDependencies: DefaultRemoteImageServiceDependenciesProtocol {
     let photoKitService: PhotoKitServiceProtocol
     let remoteImageURLDataPublisher: RemoteImageURLDataPublisher
     

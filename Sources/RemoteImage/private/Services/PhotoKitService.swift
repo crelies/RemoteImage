@@ -12,8 +12,10 @@ protocol PhotoKitServiceProvider {
 }
 
 protocol PhotoKitServiceProtocol {
-    func getPhotoData(localIdentifier: String,
-                      _ completion: @escaping (Result<Data, Error>) -> Void)
+    func getPhotoData(
+        localIdentifier: String,
+        _ completion: @escaping (Result<Data, Error>) -> Void
+    )
 }
 
 final class PhotoKitService {
@@ -22,8 +24,10 @@ final class PhotoKitService {
 }
 
 extension PhotoKitService: PhotoKitServiceProtocol {
-    func getPhotoData(localIdentifier: String,
-                      _ completion: @escaping (Result<Data, Error>) -> Void) {
+    func getPhotoData(
+        localIdentifier: String,
+        _ completion: @escaping (Result<Data, Error>) -> Void
+    ) {
         let fetchAssetsResult = Self.asset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
         guard let phAsset = fetchAssetsResult.firstObject else {
             completion(.failure(PhotoKitServiceError.phAssetNotFound(localIdentifier: localIdentifier)))

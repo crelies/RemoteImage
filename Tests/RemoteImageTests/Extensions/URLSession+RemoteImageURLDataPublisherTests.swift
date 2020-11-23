@@ -16,9 +16,8 @@ final class URLSession_RemoteImageURLDataPublisherTests: XCTestCase {
             return
         }
         let urlSession: URLSession = .shared
-        let urlRequest = URLRequest(url: url)
-        let dataTaskPublisher = urlSession.dataTaskPublisher(for: urlRequest).eraseToAnyPublisher()
-        let dataPublisher = urlSession.dataPublisher(for: urlRequest)
+        let dataTaskPublisher = urlSession.dataTaskPublisher(for: url).eraseToAnyPublisher()
+        let dataPublisher = urlSession.dataPublisher(for: url)
         XCTAssertEqual(dataPublisher.description, dataTaskPublisher.description)
     }
 

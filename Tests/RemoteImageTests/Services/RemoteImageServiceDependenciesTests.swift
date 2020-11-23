@@ -11,7 +11,7 @@ import XCTest
 
 final class RemoteImageServiceDependenciesTests: XCTestCase {
     func testInitialization() {
-        let dependencies = RemoteImageServiceDependencies()
+        let dependencies = DefaultRemoteImageServiceDependencies(remoteImageURLDataPublisher: URLSession.shared)
         XCTAssertTrue(dependencies.photoKitService is PhotoKitService)
         XCTAssertTrue(dependencies.remoteImageURLDataPublisher is URLSession)
     }

@@ -10,13 +10,13 @@
 import Combine
 import SwiftUI
 
-public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: View {
+public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View, Service: RemoteImageService>: View {
     private let type: RemoteImageType
     private let errorView: (Error) -> ErrorView
     private let imageView: (Image) -> ImageView
     private let loadingView: () -> LoadingView
 
-    @ObservedObject private var service: RemoteImageService
+    @ObservedObject private var service: Service
 
     public var body: some View {
         switch service.state {
@@ -33,13 +33,41 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View>: 
         }
     }
 
+    /// <#Description#>
+    ///
+    /// - Parameters:
+    ///   - type: <#type description#>
+    ///   - service: <#service description#>
+    ///   - errorView: <#errorView description#>
+    ///   - imageView: <#imageView description#>
+    ///   - loadingView: <#loadingView description#>
+    public init(type: RemoteImageType, service: Service, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
+        self.type = type
+        self.errorView = errorView
+        self.imageView = imageView
+        self.loadingView = loadingView
+        _service = ObservedObject(wrappedValue: service)
+
+        service.fetchImage(ofType: type)
+    }
+}
+
+extension RemoteImage where Service == DefaultRemoteImageService {
+    /// <#Description#>
+    ///
+    /// - Parameters:
+    ///   - type: <#type description#>
+    ///   - remoteImageURLDataPublisher: <#remoteImageURLDataPublisher description#>
+    ///   - errorView: <#errorView description#>
+    ///   - imageView: <#imageView description#>
+    ///   - loadingView: <#loadingView description#>
     public init(type: RemoteImageType, remoteImageURLDataPublisher: RemoteImageURLDataPublisher = URLSession.shared, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
         self.type = type
         self.errorView = errorView
         self.imageView = imageView
         self.loadingView = loadingView
 
-        let service = RemoteImageServiceFactory.makeRemoteImageService(remoteImageURLDataPublisher: remoteImageURLDataPublisher)
+        let service = DefaultRemoteImageServiceFactory.makeDefaultRemoteImageService(remoteImageURLDataPublisher: remoteImageURLDataPublisher)
         _service = ObservedObject(wrappedValue: service)
 
         service.fetchImage(ofType: type)
