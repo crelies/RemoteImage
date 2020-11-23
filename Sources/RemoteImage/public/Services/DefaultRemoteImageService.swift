@@ -9,7 +9,7 @@
 import Combine
 import Foundation
 
-public final class DefaultRemoteImageService: NSObject, ObservableObject, RemoteImageService {
+public final class DefaultRemoteImageService: RemoteImageService {
     private let dependencies: DefaultRemoteImageServiceDependenciesProtocol
     private var cancellable: AnyCancellable?
 
