@@ -7,7 +7,7 @@
 
 @testable import RemoteImage
 
-struct MockRemoteImageServiceDependencies: RemoteImageServiceDependenciesProtocol {
+struct MockRemoteImageServiceDependencies: DefaultRemoteImageServiceDependenciesProtocol {
     let photoKitService: PhotoKitServiceProtocol
     let remoteImageURLDataPublisher: RemoteImageURLDataPublisher
 

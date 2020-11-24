@@ -8,6 +8,7 @@
 import Foundation
 
 public enum RemoteImageType {
+    @available(*, deprecated, message: "Will be removed in the future because the localIdentifier is device specific and therefore cannot be used to uniquely identify a PHAsset across devices.")
     case phAsset(localIdentifier: String)
     case url(_ url: URL)
 }

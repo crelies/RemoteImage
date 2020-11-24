@@ -1,5 +1,5 @@
 //
-//  RemoteImageService.swift
+//  DefaultRemoteImageService.swift
 //  RemoteImage
 //
 //  Created by Christian Elies on 11.08.19.
@@ -9,13 +9,11 @@
 import Combine
 import Foundation
 
-public typealias RemoteImageCacheKeyProvider = (RemoteImageType) -> AnyObject
-
-public final class RemoteImageService: NSObject, ObservableObject, RemoteImageServiceProtocol {
-    private let dependencies: RemoteImageServiceDependenciesProtocol
+public final class DefaultRemoteImageService: RemoteImageService {
+    private let dependencies: DefaultRemoteImageServiceDependenciesProtocol
     private var cancellable: AnyCancellable?
 
-    @Published var state: RemoteImageState = .loading
+    @Published public var state: RemoteImageState = .loading
 
     public static var cache: RemoteImageCache = DefaultRemoteImageCache()
     public static var cacheKeyProvider: RemoteImageCacheKeyProvider = { remoteImageType in
@@ -25,11 +23,11 @@ public final class RemoteImageService: NSObject, ObservableObject, RemoteImageSe
         }
     }
 
-    init(dependencies: RemoteImageServiceDependenciesProtocol) {
+    init(dependencies: DefaultRemoteImageServiceDependenciesProtocol) {
         self.dependencies = dependencies
     }
 
-    func fetchImage(ofType type: RemoteImageType) {
+    public func fetchImage(ofType type: RemoteImageType) {
         switch type {
         case .url(let url):
             fetchImage(atURL: url)
@@ -39,7 +37,7 @@ public final class RemoteImageService: NSObject, ObservableObject, RemoteImageSe
     }
 }
 
-private extension RemoteImageService {
+private extension DefaultRemoteImageService {
     func fetchImage(atURL url: URL) {
         cancellable?.cancel()
 
@@ -49,9 +47,7 @@ private extension RemoteImageService {
             return
         }
 
-        let urlRequest = URLRequest(url: url)
-
-        cancellable = dependencies.remoteImageURLDataPublisher.dataPublisher(for: urlRequest)
+        cancellable = dependencies.remoteImageURLDataPublisher.dataPublisher(for: url)
             .map { UniversalImage(data: $0.data) }
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { [weak self] completion in

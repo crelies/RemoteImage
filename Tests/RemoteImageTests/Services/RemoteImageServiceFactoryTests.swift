@@ -11,7 +11,7 @@ import XCTest
 
 final class RemoteImageServiceFactoryTests: XCTestCase {
     func testMakeRemoteImageService() {
-        let service = RemoteImageServiceFactory.makeRemoteImageService()
+        let service = DefaultRemoteImageServiceFactory.makeDefaultRemoteImageService(remoteImageURLDataPublisher: URLSession.shared)
         XCTAssertEqual(service.state, .loading)
     }
 
