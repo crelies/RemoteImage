@@ -10,6 +10,7 @@
 import Combine
 import SwiftUI
 
+/// A custom Image view for remote images with support for a loading and error state.
 public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View, Service: RemoteImageService>: View {
     private let type: RemoteImageType
     private let errorView: (Error) -> ErrorView
@@ -33,14 +34,14 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View, S
         }
     }
 
-    /// <#Description#>
+    /// Initializes the view with the given values, especially with a custom `RemoteImageService`.
     ///
     /// - Parameters:
-    ///   - type: <#type description#>
-    ///   - service: <#service description#>
-    ///   - errorView: <#errorView description#>
-    ///   - imageView: <#imageView description#>
-    ///   - loadingView: <#loadingView description#>
+    ///   - type: Specifies the source type of the remote image. Choose between `.url` or `.phAsset`.
+    ///   - service: An object conforming to the `RemoteImageService` protocol. Responsible for fetching the image and managing the state.
+    ///   - errorView: A view builder used to create the view displayed in the error state.
+    ///   - imageView: A view builder used to create the `Image` displayed in the image state.
+    ///   - loadingView: A view builder used to create the view displayed in the loading state.
     public init(type: RemoteImageType, service: Service, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
         self.type = type
         self.errorView = errorView
@@ -53,14 +54,14 @@ public struct RemoteImage<ErrorView: View, ImageView: View, LoadingView: View, S
 }
 
 extension RemoteImage where Service == DefaultRemoteImageService {
-    /// <#Description#>
+    /// Initializes the view with the given values. Uses the built-in `DefaultRemoteImageService`.
     ///
     /// - Parameters:
-    ///   - type: <#type description#>
-    ///   - remoteImageURLDataPublisher: <#remoteImageURLDataPublisher description#>
-    ///   - errorView: <#errorView description#>
-    ///   - imageView: <#imageView description#>
-    ///   - loadingView: <#loadingView description#>
+    ///   - type: Specifies the source type of the remote image. Choose between `.url` or `.phAsset`.
+    ///   - remoteImageURLDataPublisher: An object conforming to the `RemoteImageURLDataPublisher` protocol, by default `URLSession.shared` is used.
+    ///   - errorView: A view builder used to create the view displayed in the error state.
+    ///   - imageView: A view builder used to create the `Image` displayed in the image state.
+    ///   - loadingView: A view builder used to create the view displayed in the loading state.
     public init(type: RemoteImageType, remoteImageURLDataPublisher: RemoteImageURLDataPublisher = URLSession.shared, @ViewBuilder errorView: @escaping (Error) -> ErrorView, @ViewBuilder imageView: @escaping (Image) -> ImageView, @ViewBuilder loadingView: @escaping () -> LoadingView) {
         self.type = type
         self.errorView = errorView
