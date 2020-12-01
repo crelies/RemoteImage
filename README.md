@@ -55,27 +55,9 @@ RemoteImage(type: .phAsset(localIdentifier: "541D4013-D51C-463C-AD85-0A1E4EA838F
 })
 ```
 
-## Custom `RemoteImageService`
-
-If you want complete control over the service responsible for managing the state of the view and for fetching the image you could pass an object conforming to the `RemoteImageService` to the related initializer:
-
-```swift
-let url = URL(string: "https://images.unsplash.com/photo-1524419986249-348e8fa6ad4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80")!
-
-RemoteImage(type: .url(url), service: yourCustomService, errorView: { error in
-    Text(error.localizedDescription)
-}, imageView: { image in
-    image
-    .resizable()
-    .aspectRatio(contentMode: .fit)
-}, loadingView: {
-    Text("Loading ...")
-})
-```
-
 ## Custom `RemoteImageURLDataPublisher`
 
-Under the hood by default the `URLSession.shared` is used as the `RemoteImageURLDataPublisher` to fetch the image at the specified URL.
+Under the hood the `URLSession.shared` is used by default as the `RemoteImageURLDataPublisher` to fetch the image at the specified URL.
 You can specify a custom publisher through the`remoteImageURLDataPublisher` parameter.
 As an example that's how you could add support for low data mode to the `RemoteImage` view.
 
@@ -88,6 +70,46 @@ RemoteImage(type: .url(url), remoteImageURLDataPublisher: {
     configuration.allowsConstrainedNetworkAccess = false
     return URLSession(configuration: configuration)
 }(), errorView: { error in
+    Text(error.localizedDescription)
+}, imageView: { image in
+    image
+    .resizable()
+    .aspectRatio(contentMode: .fit)
+}, loadingView: {
+    Text("Loading ...")
+})
+```
+
+## Custom `RemoteImageService`
+
+If you want complete control over the service responsible for managing the state of the view and for fetching the image you could pass an object conforming to the `RemoteImageService` protocol to the related initializer:
+
+```swift
+final class CustomService: RemoteImageService { ... }
+
+let url = URL(string: "https://images.unsplash.com/photo-1524419986249-348e8fa6ad4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80")!
+
+RemoteImage(type: .url(url), service: CustomService(), errorView: { error in
+    Text(error.localizedDescription)
+}, imageView: { image in
+    image
+    .resizable()
+    .aspectRatio(contentMode: .fit)
+}, loadingView: {
+    Text("Loading ...")
+})
+```
+
+In addition to that you could use the new `@StateObject` property wrapper introcuded in Swift by creating an instance of the default built-in `RemoteImageService` and using the above initializer:
+
+```swift
+@StateObject var service = DefaultRemoteImageServiceFactory.makeDefaultRemoteImageService()
+// or
+@StateObject var service = DefaultRemoteImageServiceFactory.makeDefaultRemoteImageService(remoteImageURLDataPublisher: yourRemoteImageURLDataPublisher)
+
+let url = URL(string: "https://images.unsplash.com/photo-1524419986249-348e8fa6ad4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80")!
+
+RemoteImage(type: .url(url), service: service, errorView: { error in
     Text(error.localizedDescription)
 }, imageView: { image in
     image
