@@ -3,7 +3,7 @@
 [![Swift 5.3](https://img.shields.io/badge/swift-5.3-green.svg?longCache=true&style=flat-square)](https://developer.apple.com/swift)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20macOS%20%7C%20tvOS-lightgrey.svg?longCache=true&style=flat-square)](https://www.apple.com)
 [![Current Version](https://img.shields.io/github/v/tag/crelies/RemoteImage?longCache=true&style=flat-square)](https://github.com/crelies/RemoteImage)
-[![Build status](https://travis-ci.com/crelies/RemoteImage.svg?token=THnaziKxRFFz1nKcsPgz&branch=dev)](https://travis-ci.com/crelies/RemoteImage)
+[![Build status](https://github.com/crelies/RemoteImage/actions/workflows/build.yml/badge.svg)](https://github.com/crelies/RemoteImage/actions/workflows/build.yml)
 [![Code coverage](https://codecov.io/gh/crelies/RemoteImage/branch/dev/graph/badge.svg?token=DhJyoUKNPM)](https://codecov.io/gh/crelies/RemoteImage)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg?longCache=true&style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
